@@ -3,7 +3,7 @@
 #CS 2750
 #Project 1
 permissions(){
-    if ( namei -l $var |  grep -q  $USER ) ; then
+    if ( ls $var 2> /dev/null ) ; then
 	echo "to which you have access"
     else
 	echo "to which you do not have access"
