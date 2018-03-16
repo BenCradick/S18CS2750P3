@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 
 SEDMAGIC='s;[^/]*/;|____;g;s;____|; |;g'
 

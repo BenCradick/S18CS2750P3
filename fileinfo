@@ -4,22 +4,30 @@
 #Project 1
 permissions(){
     if ( ls $var 2> /dev/null ) ; then
-	echo "to which you have access"
+	    echo "You have permission to access $var"
     else
-	echo "to which you do not have access"
+	    echo "You do not have permission to access $var"
     fi
 }
 main(){
     if [ ! -e $var ] ; then
-	echo "$var is not a file"
+	    echo "$var is not a file"
+        exit
     elif ( [ -z $var ] || [ $var == "-h" ] ); then
         echo "This script takes files and directories as arguments like such \$ ./fileinfo arg"
     elif [[ -d $var ]]; then
-        echo "This file is a directory"
-	permissions "$var";
+        echo "$var is a directory" 
+        permissions "$var";
+    elif [ ! -f $var ]; then
+        echo "This is a special file."
     else
-	echo "This is a normal file"
+	    echo "This is a normal file"
     fi
+    echo "Test"
+    if ( ls -l $var | grep -q $USER ); then
+        echo "You own $var" 
+    fi
+
 }
 
 for var in "$@";do 
