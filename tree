@@ -1,4 +1,7 @@
 #!/usr/bin/bash
+#Ben Cradick
+#CS 2750
+#Project 3
 
 SEDMAGIC='s;[^/]*/;|____;g;s;____|; |;g'
 

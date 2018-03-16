@@ -1,9 +1,12 @@
-#!/usr/bin/bash
+#!/bin/bash
 #Ben Cradick
 #CS 2750
-#Project 1
+#Project 3
+
+#this doesn't work on mac but I need to check on CentOS
+
 permissions(){
-    if ( ls $var 2> /dev/null ) ; then
+    if [ -r  $var ] ; then
 	    echo "You have permission to access $var"
     else
 	    echo "You do not have permission to access $var"
@@ -13,21 +16,40 @@ main(){
     if [ ! -e $var ] ; then
 	    echo "$var is not a file"
         exit
+
     elif ( [ -z $var ] || [ $var == "-h" ] ); then
-        echo "This script takes files and directories as arguments like such \$ ./fileinfo arg"
+        echo "This script takes files and directories as arguments like such \$ ./fileinfo {argument}"
+
     elif [[ -d $var ]]; then
         echo "$var is a directory" 
         permissions "$var";
-    elif [ ! -f $var ]; then
-        echo "This is a special file."
+
     else
-	    echo "This is a normal file"
+	    echo "$var is a normal file"
     fi
-    echo "Test"
+
+    if [ ! -f $var ]; then
+        echo "$var is a special file."
+    fi
+    
     if ( ls -l $var | grep -q $USER ); then
         echo "You own $var" 
     fi
 
+    perms=`ls -ld $var`
+
+    if ( [ ${perms:1:1} == "r" ] ); then
+        echo "You have read permission for $var"
+    fi
+
+    if ( [ ${perms:2:1} == "w" ] ); then
+        echo "You have write permission for $var."
+    fi
+
+    if ( [ ${perms:3:1} == "x" ] && [ ${perms:0:1} != "d" ] ); then
+        echo "You have execute permission for $var."
+    fi
+    echo ""
 }
 
 for var in "$@";do 
