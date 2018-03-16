@@ -1,5 +1,7 @@
 test.sh
 testDir
+integers_1
+integers_1.sorted
 
 # Created by https://www.gitignore.io/api/git,vim,linux,macos,visualstudiocode
 

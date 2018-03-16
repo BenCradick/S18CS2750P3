@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+#Ben Cradick
+#CS2750
+#Project 3
+
+bubble_sort(){
+for (( i = 0 ; i < ${#integerArr[@]} ; i++))
+do
+   if (( ${integerArr[$i]} > ${integerArr[$((i+1))]} )); then
+      temp=${integerArr[$i]}
+      integerArr[$i]=${integerArr[(($i + 1))]}
+      integerArr[(($i + 1))]=$temp
+      bubble_sort
+  fi
+done
+
+}
+declare -a integerArr
+integerArr=(`cat "$1"`)
+bubble_sort
+printf "%s\n" "${integerArr[@]}" > $1.sorted
+
+
