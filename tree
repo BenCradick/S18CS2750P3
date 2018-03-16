@@ -3,13 +3,11 @@
 #CS 2750
 #Project 3
 
-SEDMAGIC='s;[^/]*/;|____;g;s;____|; |;g'
-
 if [ "$#" -gt 0 ] ; then
-   dirlist="$@"
+   args="$@"
 else
-   dirlist="."
+   args="."
 fi
-for x in $dirlist; do
-     find "$x" -print | sed -e "$SEDMAGIC"
+for var in $args; do
+     find "$var" -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
 done
