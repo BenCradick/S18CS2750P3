@@ -4,9 +4,9 @@
 #Project 3
 
 bubble_sort(){
-for (( i = 0 ; i < ${#integerArr[@]} ; i++))
+for (( i = 0 ; i < ((${#integerArr[@]}-1)) ; i++))
 do
-   if (( ${integerArr[$i]} > ${integerArr[$((i+1))]} )); then
+   if ((${integerArr[i]} > ${integerArr[$((i+1))]})); then
       temp=${integerArr[$i]}
       integerArr[$i]=${integerArr[(($i + 1))]}
       integerArr[(($i + 1))]=$temp
