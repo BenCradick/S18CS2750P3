@@ -1,13 +1,13 @@
-#!/usr/bin/bash
+#!/bin/bash
 #Ben Cradick
 #CS 2750
 #Project 3
 
-#this doesn't work on mac but I need to check on CentOS
+#
 
 permissions(){
 
-    if [ -r  $var ] ; then
+    if [ -G  $var ] ; then
 
 	    echo "You have permission to access $var"
 
@@ -18,36 +18,34 @@ permissions(){
     fi
 }
 main(){
-
+    #does file exist
     if [ ! -e $var ] ; then
 
 	echo "$var is not a file"
 
         exit
-
+    #was there an argument or was -h given as argument
     elif ( [ -z $var ] || [ $var == "-h" ] ); then
 
         echo "This script takes files and directories as arguments like such \$ ./fileinfo {argument}"
+    #is argument special file
+    elif ([ -b $var ] || [ -c $var ] || [ -h $var ]); then
 
-    elif ([ -d $var ] && [ -f $var ]); then
+        echo "$var is a special file"
+    #is it a directory
+    elif ([ -d $var ]); then
 
 
         echo "$var is a directory" 
         permissions "$var";
 
-
+    #is it a normal file
     elif [ -f $var ]; then
 
 	echo "$var is a normal file"
 
-    fi
-
-    if [ ! -f $var ]; then
-     
-	echo "$var is a special file."
-
-    fi    
-
+    fi   
+    #is user the owner
     if [ -O $var ]; then
 
         echo "You own $var"
@@ -60,7 +58,7 @@ main(){
 
     have="You have permissions to"
     dont="You do not have permissions to"
-
+    #checking if $USER has permission -r:read -w:write -x:execute if directory (-d) then excluded
     if ( [ -r $var ] ); then
 
         echo "$have read  $var"
@@ -93,7 +91,7 @@ main(){
 
     echo ""
 }
-
+#loop through all argsS
 for var in "$@";do 
 
     main "$var";
