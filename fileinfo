@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/bash
 #Ben Cradick
 #CS 2750
 #Project 3
@@ -6,52 +6,96 @@
 #this doesn't work on mac but I need to check on CentOS
 
 permissions(){
+
     if [ -r  $var ] ; then
+
 	    echo "You have permission to access $var"
+
     else
+
 	    echo "You do not have permission to access $var"
+
     fi
 }
 main(){
+
     if [ ! -e $var ] ; then
-	    echo "$var is not a file"
+
+	echo "$var is not a file"
+
         exit
 
     elif ( [ -z $var ] || [ $var == "-h" ] ); then
+
         echo "This script takes files and directories as arguments like such \$ ./fileinfo {argument}"
 
-    elif [[ -d $var ]]; then
+    elif ([ -d $var ] && [ -f $var ]); then
+
+
         echo "$var is a directory" 
         permissions "$var";
 
-    else
-	    echo "$var is a normal file"
+
+    elif [ -f $var ]; then
+
+	echo "$var is a normal file"
+
     fi
 
     if [ ! -f $var ]; then
-        echo "$var is a special file."
-    fi
-    
-    if ( ls -l $var | grep -q $USER ); then
-        echo "You own $var" 
+     
+	echo "$var is a special file."
+
+    fi    
+
+    if [ -O $var ]; then
+
+        echo "You own $var"
+
+    else
+
+	echo "You do not own $var" 
+
     fi
 
-    perms=`ls -ld $var`
+    have="You have permissions to"
+    dont="You do not have permissions to"
 
-    if ( [ ${perms:1:1} == "r" ] ); then
-        echo "You have read permission for $var"
+    if ( [ -r $var ] ); then
+
+        echo "$have read  $var"
+
+    else
+
+	echo "$dont read $var"
+
     fi
 
-    if ( [ ${perms:2:1} == "w" ] ); then
-        echo "You have write permission for $var."
+    if ( [ -w $var  ] ); then
+
+        echo "$have write $var"
+
+    else
+
+	echo "$dont write $var"
+
     fi
 
-    if ( [ ${perms:3:1} == "x" ] && [ ${perms:0:1} != "d" ] ); then
-        echo "You have execute permission for $var."
+    if ( [ -x $var  ] && [ ! -d $var ] ); then
+
+        echo "$have execute $var"
+
+    elif ( [ ! -x $var ] && [ ! -d $var ] ); then
+
+	echo "$have execute $var"
+
     fi
+
     echo ""
 }
 
 for var in "$@";do 
+
     main "$var";
+
 done
